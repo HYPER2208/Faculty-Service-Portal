@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAuthContext } from './useAtuhContex'
+import { useAuthContext } from './useAuthContex'
 
 export const useLogin = () => {
   const [error, setError] = useState(null)
@@ -16,7 +16,7 @@ export const useLogin = () => {
       body: JSON.stringify({ email, password })
     })
     const json = await response.json()
-
+    // console.log("Json",json);
     if (!response.ok) {
       setIsLoading(false)
       setError(json.error)

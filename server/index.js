@@ -24,7 +24,6 @@ mongoose.connect(CONNECTION_URL);
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
-    
 })
 // app.get('/',(req,res)=>{
 //     res.send("Server Running");
