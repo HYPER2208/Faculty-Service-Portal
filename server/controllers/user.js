@@ -21,21 +21,48 @@ export const createUsers = async (req, res) => {
     const user = req.body;
 
     console.log(user);
-    const salt = await bcryptjs.genSalt(10);
-    user.password = await bcryptjs.hash(user.password, salt);
+    // const salt = await bcryptjs.genSalt(10);
+    // user.password = await bcryptjs.hash(user.password, salt);
 
     
     try {
         const userExists = await UserModel.findOne({email:user.email});
 
         if(userExists){
-            const updatedUser = await UserModel.findOneAndUpdate({email: user.email}, user);
-            res.status(200).json({message:"User Updated Succesfully"});
+            // const updatedUser = await UserModel.findOneAndUpdate({email: user.email}, user);
+            res.status(200).json({message:"User Already Exists"});
         }
         else{
             const newUser = new UserModel(user);
             await newUser.save();
             res.status(200).json({message:"New User Added"});
+        }
+
+        
+    } catch (error) {
+        res.status(404).json({message : error.message});
+        
+    }
+}
+
+export const setPassword = async (req, res) => {
+    const user = req.body;
+
+    console.log(user);
+    
+
+    
+    try {
+        const userExists = await UserModel.findOne({email:user.email});
+
+        if(userExists){
+            const salt = await bcryptjs.genSalt(10);
+            userExists.password = await bcryptjs.hash(user.password, salt);
+            const updatedUser = await UserModel.findOneAndUpdate({email: user.email}, userExists);
+            res.status(200).json({message:"User Updated Succesfully"});
+        }
+        else{
+            res.status(200).json({message:"User Does Not Exists"});
         }
 
         
@@ -77,3 +104,4 @@ export const auth = async (req, res) => {
         
     }
 }
+ 

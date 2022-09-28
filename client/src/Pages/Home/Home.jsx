@@ -11,7 +11,7 @@ const Home = () => {
 
 
     const handleClick = () => {
-        logout()
+        logout();
     }
 
     return (
